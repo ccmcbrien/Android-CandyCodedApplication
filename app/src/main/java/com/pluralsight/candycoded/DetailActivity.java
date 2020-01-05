@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,6 +20,7 @@ public class DetailActivity extends AppCompatActivity {
 
     public static final String SHARE_DESCRIPTION = "Look at this delicious candy from Candy Coded - ";
     public static final String HASHTAG_CANDYCODED = " #candycoded";
+    public static final String TEXT_PLAIN = "text/plain";
     String mCandyImageUrl = "";
 
     @Override
@@ -68,7 +70,20 @@ public class DetailActivity extends AppCompatActivity {
         return true;
     }
 
-    // ***
-    // TODO - Task 4 - Share the Current Candy with an Intent
-    // ***
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        createShareIntent();
+        return super.onOptionsItemSelected( item );
+    }
+
+    private void createShareIntent() {
+
+        final String intentPayload =
+                this.SHARE_DESCRIPTION + this.mCandyImageUrl + this.HASHTAG_CANDYCODED;
+        final Intent shareIntent = new Intent( Intent.ACTION_SEND );
+        shareIntent.setType( TEXT_PLAIN );
+        shareIntent.putExtra( Intent.EXTRA_TEXT, intentPayload );
+        startActivity( shareIntent );
+    }
 }
